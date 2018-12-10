@@ -46,7 +46,7 @@ $ docker run -it --rm  -v /images/to/classify:/workspace/images acheshkov/glasse
 ### Your computer
 
 ```sh
-git clone https://github.com/acheshkov/eyeglasses_classifier_ligth.git
+git clone https://github.com/acheshkov/eyeglasses_classifier_lightweight.git
 pip install -r requirements.txt
 python inference.py --images-path='images/to/classify' --model-params-path='./dist/squeezenet_params'
 ```
@@ -63,7 +63,7 @@ python inference.py --images-path='images/to/classify' --model-params-path='./di
 ## Training
  
 ```sh
-git clone https://github.com/acheshkov/eyeglasses_classifier_ligth.git
+git clone https://github.com/acheshkov/eyeglasses_classifier_lightweight.git
 pip install -r requirements.txt
 python train.py --epochs=100 --batch-size=40 --images-path='/path/to/dataset'
 ```
