@@ -129,10 +129,6 @@ if __name__ == '__main__':
     # ============ Data preparation ==============
     
     transform = transforms.Compose([
-        #torchvision.transforms.RandomAffine(degrees=(-10,10), translate=(5e-2, 5e-2)),
-        #torchvision.transforms.RandomHorizontalFlip(),
-        #transforms.CenterCrop(400),
-        #transforms.Resize(224),
         transforms.ToTensor(),
         NORMALIZITAION_FOR_PRETRAINED
     ])

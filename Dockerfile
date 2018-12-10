@@ -1,8 +1,8 @@
 FROM pytorch/pytorch:latest
 RUN apt-get update
 RUN pip install pandas sklearn
-RUN apt-get install -y zip vim
-COPY ./dataset.zip .
+#RUN apt-get install -y zip vim
+#COPY ./dataset.zip .
 COPY ./*.py ./
 COPY ./dist ./
 ADD dist ./dist
