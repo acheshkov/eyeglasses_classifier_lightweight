@@ -79,42 +79,6 @@ def train_cycle(
     score = f1_score(targets, ys)
     return avg_meter.avg, score
 
-def train_cycle_distillation(
-    data_loader: torch.utils.data.DataLoader, 
-    model_teacher: torch.nn.Module, 
-    model_student: torch.nn.Module, 
-    optimizer: torch.optim.Optimizer, 
-    device, 
-    backprop=True,
-    alpha=0.9
-    ) -> Tuple[float, float]:
-    ''' distillation single training/validation cycle '''
-
-    avg_meter = AverageMeter()
-    score = 0
-    targets = []
-    ys = []
-    for *batch, _ in data_loader:
-        x = batch[0].to(device)
-        target = batch[1].to(device).float()
-        with torch.no_grad(): 
-            y_teacher = torch.sigmoid(model_teacher(x).squeeze(1))
-        y = model_student(x).squeeze(1)
-        y_sigm = torch.sigmoid(y).cpu()
-        targets = np.concatenate((targets, target.cpu().numpy()))
-        ys = np.concatenate((ys, torch.sign(torch.where(y_sigm > 0.5, y_sigm, torch.tensor(.0))).detach().numpy()))
-        if backprop: optimizer.zero_grad()
-        loss_fn = torch.nn.BCEWithLogitsLoss()
-        loss = (1 - alpha) * loss_fn(y, target) + alpha * loss_fn(y, y_teacher)
-        
-        if backprop:
-            loss.backward()
-            optimizer.step()
-        avg_meter.update(loss.item(), len(batch))
-    
-    score = f1_score(targets, ys)
-    return avg_meter.avg, score
-
 if __name__ == '__main__':
     args = parse_args()
     print(args)
@@ -132,7 +96,7 @@ if __name__ == '__main__':
         transforms.ToTensor(),
         NORMALIZITAION_FOR_PRETRAINED
     ])
-    images = ImageFolderWithPaths('./dataset/meglass/', transform=transform)
+    images = ImageFolderWithPaths(args.images_path, transform=transform)
 
     
     folds = mk_k_folds(images, k=5, batch_size=BATCH_SIZE)
