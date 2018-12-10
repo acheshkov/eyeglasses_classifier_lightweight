@@ -1,0 +1,2 @@
+class LigthModel:
+    pass

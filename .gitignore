@@ -2,3 +2,4 @@
 dataset
 notebooks
 *.zip
+__pycache__
