@@ -40,7 +40,7 @@ if __name__ == '__main__':
 
     if args.model_params is not None: 
         model.load_state_dict(torch.load(args.model_params, map_location=device))
-        model.cpu()
+        model.to(device)
         model.eval()
         print("Model parameters are loaded.")
         
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     counter = 0
     for img_tensor, path in images:
         t_start = time.time()
-        has_glasses = model(img_tensor.cpu().unsqueeze(0))  # Pr(has glasses | face_image)
+        has_glasses = model(img_tensor.to(device).unsqueeze(0))  # Pr(has glasses | face_image)
         t_accum += time.time() - t_start
         if (has_glasses > TH): print(path)
         counter += 1

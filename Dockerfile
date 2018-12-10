@@ -4,8 +4,10 @@ RUN pip install pandas sklearn
 RUN apt-get install -y zip vim
 COPY ./dataset.zip .
 COPY ./*.py ./
+COPY ./dist ./
+ADD dist ./dist
 
-# ENTRYPOINT ["python"]
-# CMD ["inference.py" "--images-path='./images'" "--model-params-path='./dist/squeezenet_params'"]
+ENTRYPOINT ["python"]
+CMD ["inference.py", "--images-path=./images", "--model-params-path=./dist/squeezenet_params"]
 
-CMD [ "python", "./main.py" ]
+#CMD [ "python", "./main.py" ]
